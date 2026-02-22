@@ -1,6 +1,7 @@
 {
   "extends": "@repo/typescript-config/nextjs.json",
   "compilerOptions": {
+    "noImplicitAny": false,
     "plugins": [
       {
         "name": "next"
@@ -12,9 +13,11 @@
     "**/*.tsx",
     "next-env.d.ts",
     "next.config.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "components/Logo.tsx",
+    "components/MapComponent.tsx",
+    "components/MapProvider.tsx",
+    "components/ClientRoute.tsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

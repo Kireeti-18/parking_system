@@ -1,0 +1,17 @@
+{
+  "name": "@parking/services",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@parking/validations": "*",
+    "jotai": "^2.15.0",
+    "uuid": "^13.0.0"
+  }
+}
