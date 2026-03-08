@@ -6,10 +6,7 @@
   "exports": {
     ".": "./index.ts"
   },
-  "scripts": {
-    "generate": "prisma generate",
-    "migrate": "prisma migrate dev"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",

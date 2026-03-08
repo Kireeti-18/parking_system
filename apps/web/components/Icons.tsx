@@ -37,6 +37,7 @@ export type IconName =
   | 'logout'
   | 'arrow-long-right'
   | 'chevron'
+  | 'bar-3'
   | string;
 
 export function Icon({
@@ -94,6 +95,8 @@ export function Icon({
       return <ArrowLongRight styles={iconStyle} />;
     case 'chevron':
       return <Chevron styles={iconStyle} />;
+    case 'bar-3':
+      return <Bar3 styles={iconStyle} />;
     default:
       return <></>;
   }
@@ -512,6 +515,25 @@ function Chevron({ styles = '' }: { styles?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         d="m8.25 4.5 7.5 7.5-7.5 7.5"
+      />
+    </svg>
+  );
+}
+
+function Bar3({ styles = '' }: { styles?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className={styles}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
       />
     </svg>
   );

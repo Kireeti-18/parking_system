@@ -5,6 +5,8 @@
 @theme {
   --color-white-50: #fcfcfc;
   --color-primary: #13b5eb;
+  --color-secondary: #f38128;
+  --color-secondaryL: #ec821d;
 }
 
 @layer utilities {

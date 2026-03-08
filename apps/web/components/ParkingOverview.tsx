@@ -30,7 +30,7 @@ export const slotStyles: Record<SlotStatus, SlotStyle> = {
   },
   maintenance: {
     outerDiv: 'border-purple-600 bg-purple-100',
-    innerDiv: 'bg-orange-300',
+    innerDiv: 'bg-secondary/80',
     inputDiv: 'border-purple-600',
     button: 'bg-purple-500',
   },

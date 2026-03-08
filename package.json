@@ -9,7 +9,9 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "start_db": "sudo docker rm -f parking_system && sudo docker run --name parking_system -e POSTGRES_PASSWORD=Kireeti@123 -d -p 5432:5432 -v parking_system_data:/var/lib/postgresql/data postgres",
-    "prisma_studio": "cd packages/db && npx prisma studio"
+    "prisma_studio": "prisma studio --schema packages/db/prisma/schema.prisma",
+    "prisma_generate": "prisma generate --schema packages/db/prisma/schema.prisma",
+    "prisma_migrate": "prisma migrate dev --schema packages/db/prisma/schema.prisma"
   },
   "devDependencies": {
     "@types/google.maps": "^3.58.1",

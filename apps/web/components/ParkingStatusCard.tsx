@@ -6,7 +6,6 @@ import { UpdateParkingStatus } from '../lib/actions/parking_info';
 import { useSession } from 'next-auth/react';
 import { useSetAtom } from 'jotai';
 import { loaderAtom } from '@parking/services';
-import { setInterval } from 'timers/promises';
 
 const ParkingStatusCard = ({
   parkingId,

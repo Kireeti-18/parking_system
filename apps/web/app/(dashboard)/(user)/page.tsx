@@ -1,4 +1,5 @@
 import { NearestLocation } from '../../../components/NearestLocation';
+import MyParkings from '../../../components/profile/MyParkings';
 import getSessionData from '../../../components/server/getSessionData';
 import { redirect } from 'next/navigation';
 
@@ -13,6 +14,9 @@ export default async function Home() {
     <>
       <div className="px-4 py-6">
         <NearestLocation />
+        <div className="mt-6">
+          <MyParkings defaultStatusFilter="occupied" dashboardMode />
+        </div>
       </div>
     </>
   );

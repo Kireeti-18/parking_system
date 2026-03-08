@@ -47,7 +47,7 @@ export function Dropdown({
 
   useEffect(() => {
     if (isDefault && defaultSelectedValue !== undefined) {
-      setSelected(defaultSelectedValue);
+       (defaultSelectedValue);
     }
   }, [defaultSelectedValue, isDefault]);
 
@@ -59,6 +59,7 @@ export function Dropdown({
   };
 
   const selectedLabel = options.find((o) => o.value === selected)?.name ?? '';
+  const hasSelection = selected !== undefined && selected !== null;
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (disabled || options.length === 0) return;
@@ -142,10 +143,10 @@ export function Dropdown({
         >
           <span
             className={`${selectedTextStyles} ${
-              selected && !disabled ? 'text-gray-900' : 'text-gray-400'
+              hasSelection && !disabled ? 'text-gray-900' : 'text-gray-400'
             }`}
           >
-            {selected ? selectedLabel : placeholder}
+            {hasSelection ? selectedLabel : placeholder}
           </span>
           <Icon
             name="down-arrow"

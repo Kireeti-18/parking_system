@@ -26,7 +26,7 @@ export default function ParkingActions({
     return (
       <>
         <button
-          className="rounded-xl bg-orange-400/90 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 transition cursor-pointer"
+          className="rounded-xl bg-secondaryL px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-secondary transition cursor-pointer"
           onClick={() => setBook(true)}
         >
           Book Parking

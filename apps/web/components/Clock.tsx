@@ -30,7 +30,7 @@ export default function Clock() {
         <span className="text-blue-600">
           {hours}:{minutes}
         </span>
-        <span className="text-orange-500">:{seconds}</span>
+        <span className="text-secondaryL">:{seconds}</span>
       </div>
 
       <div className="text-xs text-gray-500">{dayDate}</div>

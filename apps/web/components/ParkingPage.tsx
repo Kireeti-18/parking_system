@@ -55,7 +55,7 @@ const ParkingPage = async ({ id }: { id: string }) => {
   const loc = parkingInfo.parking_location;
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6">
+    <div className="bg-gray-50 px-4 py-6">
       <div className="mx-auto max-w-7xl">
         <ClientRouter route="/">
           <div className="flex items-center gap-2 text-gray-600 hover:text-gray-900 cursor-pointer mb-6">
@@ -119,7 +119,7 @@ const ParkingPage = async ({ id }: { id: string }) => {
                 />
                 <AvailabilityBlock
                   icon="car"
-                  color="text-orange-400"
+                  color="text-secondary"
                   label="Cars"
                   available={parkingInfo.available_car_slots}
                   total={parkingInfo.car_slots}
@@ -138,7 +138,7 @@ const ParkingPage = async ({ id }: { id: string }) => {
                 />
                 <OccupiedBlock
                   icon="car"
-                  color="text-orange-400"
+                  color="text-secondary"
                   occupied={
                     parkingInfo.car_slots - parkingInfo.available_car_slots
                   }
@@ -162,7 +162,7 @@ const ParkingPage = async ({ id }: { id: string }) => {
                 />
                 <PriceBlock
                   icon="car"
-                  color="text-orange-400"
+                  color="text-secondary"
                   price={parkingInfo.car_price_per_hour}
                 />
               </div>

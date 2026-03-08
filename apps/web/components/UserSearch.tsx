@@ -126,7 +126,7 @@ const UserSearch = () => {
                       </div>
 
                       <div className="flex items-center gap-1 text-xs">
-                        <Icon name="car" styles="text-orange-400 text-sm" />
+                        <Icon name="car" styles="text-secondaryL text-sm" />
                         <span className="font-semibold text-green-600">
                           {p.available_car_slots}
                         </span>

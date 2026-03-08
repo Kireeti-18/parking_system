@@ -1,135 +1,119 @@
-# Turborepo starter
+# Project Scripts Documentation
 
-This Turborepo starter is maintained by the Turborepo core team.
+This document explains the available npm scripts defined in the `package.json` file.
 
-## Using this example
+## Available Scripts
 
-Run the following command:
+### 1. `build`
 
-```sh
-npx create-turbo@latest
+```bash
+npm run build
 ```
 
-## What's inside?
+Runs the build process for all packages using Turborepo.
 
-This Turborepo includes the following packages/apps:
+- Executes: `turbo run build`
+- Builds all apps and packages that define a `build` script.
+- Used for production builds.
 
-### Apps and Packages
+---
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### 2. `dev`
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```bash
+npm run dev
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+Starts the development environment for all packages.
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+- Executes: `turbo run dev`
+- Runs development servers concurrently.
+- Watches for file changes.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+---
 
-### Develop
+### 3. `start`
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+```bash
+npm run start
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+Alias for the development command.
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+- Executes: `turbo run dev`
+- Typically used to start the application.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+---
 
-### Remote Caching
+### 4. `start_db`
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```bash
+npm run start_db
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+Starts a PostgreSQL database inside a Docker container.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+Command executed:
 
+```bash
+sudo docker rm -f parking_system && \
+sudo docker run \
+  --name parking_system \
+  -e POSTGRES_PASSWORD=Kireeti@123 \
+  -d \
+  -p 5432:5432 \
+  -v parking_system_data:/var/lib/postgresql/data \
+  postgres
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+What it does:
+
+- Removes any existing container named `parking_system`.
+- Runs a new PostgreSQL container.
+- Sets the database password.
+- Exposes port `5432`.
+- Persists data using a Docker volume (`parking_system_data`).
+
+---
+
+### 5. `prisma_studio`
+
+```bash
+npm run prisma_studio
 ```
 
-## Useful Links
+Opens Prisma Studio for database management.
 
-Learn more about the power of Turborepo:
+- Changes directory to `packages/db`
+- Runs: `npx prisma studio`
+- Provides a GUI to view and edit database records.
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+---
+
+# Notes
+
+- This project uses **Turborepo** for monorepo task orchestration.
+- Docker must be installed to run the database script.
+- Ensure PostgreSQL port `5432` is not already in use before starting the database.
+
+---
+
+# Typical Development Workflow
+
+1. Start the database:
+
+   ```bash
+   npm run start_db
+   ```
+
+2. Start development servers:
+
+   ```bash
+   npm run dev
+   ```
+
+3. Open Prisma Studio (optional):
+
+   ```bash
+   npm run prisma_studio
+   ```

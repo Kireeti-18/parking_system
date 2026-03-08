@@ -3,6 +3,12 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import prisma from '@parking/db';
 import bcrypt from 'bcrypt';
 
+const defaultSettings = {
+  nearestCount: 5,
+  nearestDistance: 5,
+  notifications: true,
+};
+
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
@@ -17,6 +23,7 @@ export const authOptions: AuthOptions = {
         try {
           const user = await prisma.user.findFirst({
             where: { email, verification_status: true },
+            include: { setting: true },
           });
           if (!user) return null;
 
@@ -31,6 +38,15 @@ export const authOptions: AuthOptions = {
             email: user.email,
             user_type: userType,
             avathar: user.avathar,
+            settings: {
+              nearestCount:
+                user.setting?.nearest_count ?? defaultSettings.nearestCount,
+              nearestDistance:
+                user.setting?.nearest_distance ??
+                defaultSettings.nearestDistance,
+              notifications:
+                user.setting?.notifications ?? defaultSettings.notifications,
+            },
           };
 
           if (user.user_type === 'admin') {
@@ -98,6 +114,7 @@ export const authOptions: AuthOptions = {
           email: user.email,
           user_type: user.user_type,
           avathar: user.avathar,
+          settings: user.settings ?? defaultSettings,
         };
         if (user.parking_info) {
           token.parking_info = {
@@ -108,7 +125,48 @@ export const authOptions: AuthOptions = {
       }
       if (trigger === 'update') {
         const isAdmin = token.user_type === 'admin';
+
+        if (session?.name !== undefined) {
+          token = {
+            ...token,
+            name: session?.name,
+          };
+        }
+
+        if (session?.avatar !== undefined) {
+          token = {
+            ...token,
+            avathar: session?.avatar,
+          };
+        }
+
+        if (session?.settings !== undefined) {
+          token = {
+            ...token,
+            settings: {
+              nearestCount:
+                session.settings?.nearestCount ?? defaultSettings.nearestCount,
+              nearestDistance:
+                session.settings?.nearestDistance ??
+                defaultSettings.nearestDistance,
+              notifications:
+                session.settings?.notifications ??
+                defaultSettings.notifications,
+            },
+          };
+        }
+
         if (isAdmin) {
+          if (session?.parking_info?.parking_data !== undefined) {
+            token = {
+              ...token,
+              parking_info: {
+                ...(token.parking_info ?? {}),
+                parking_data: session.parking_info.parking_data,
+              },
+            };
+          }
+
           if (session?.current_parking_index !== undefined) {
             token = {
               ...token,
@@ -161,6 +219,14 @@ export const authOptions: AuthOptions = {
         user_id: token.user_id ?? undefined,
         user_type: token.user_type ?? undefined,
         avathar: token.avathar ?? null,
+      };
+      session.settings = {
+        nearestCount:
+          token.settings?.nearestCount ?? defaultSettings.nearestCount,
+        nearestDistance:
+          token.settings?.nearestDistance ?? defaultSettings.nearestDistance,
+        notifications:
+          token.settings?.notifications ?? defaultSettings.notifications,
       };
       if (token.user_type === 'admin') {
         session.parking_info = {

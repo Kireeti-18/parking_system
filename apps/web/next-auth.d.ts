@@ -13,6 +13,11 @@ declare module 'next-auth' {
       parking_data: Array<SessionParkingInfo>;
       current_parking_index: number;
     };
+    settings?: {
+      nearestCount: number;
+      nearestDistance: number;
+      notifications: boolean;
+    };
   }
 
   interface Session {
@@ -27,6 +32,11 @@ declare module 'next-auth' {
       parking_data: Array<SessionParkingInfo>;
       current_parking_index: number;
     };
+    settings?: {
+      nearestCount: number;
+      nearestDistance: number;
+      notifications: boolean;
+    };
   }
 }
 
@@ -38,6 +48,11 @@ declare module 'next-auth/jwt' {
     parking_info?: {
       parking_data?: Array<SessionParkingInfo>;
       current_parking_index?: number;
+    };
+    settings?: {
+      nearestCount?: number;
+      nearestDistance?: number;
+      notifications?: boolean;
     };
   }
 }

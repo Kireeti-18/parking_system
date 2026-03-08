@@ -8,11 +8,13 @@ import {
 import getSessionData from '../../components/server/getSessionData';
 import prisma, { Prisma } from '@parking/db';
 import {
+  isValidType,
   LatLng,
   ParkingsType,
   ParkingInfoHashType,
   ParkingStatus,
   ParkingStatusType,
+  PricingTypeSet,
   PricingTypeType,
   SessionParkingInfo,
   VehicleDepart,
@@ -23,7 +25,6 @@ import {
 } from '@parking/validations';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
-import { error } from 'console';
 
 export async function getParkingSlotsStatusInfo(
   statuses: ParkingStatusType[] = [],
@@ -735,7 +736,7 @@ export const UpdateParkingStatus = async (
     };
   }
 
-  const updatedParkInfo = await prisma.parkingArea.update({
+  await prisma.parkingArea.update({
     where: {
       id: parkingId,
     },
@@ -748,6 +749,90 @@ export const UpdateParkingStatus = async (
     status: STATUS.OK,
     message: 'Parking status updated successfully.',
   };
+};
+
+export const UpdateParkingDetails = async (data: {
+  parkingId: string;
+  parkingName: string;
+  pricingType: string;
+  carPricePerHour: number;
+  bikePricePerHour: number;
+}) => {
+  const session = await getSessionData();
+  const userInfo = session.userInfo;
+
+  if (userInfo?.user_type !== 'admin') {
+    return {
+      status: STATUS.FORBIDDEN,
+      message: "User don't have permission.",
+    };
+  }
+
+  const parkingInfo = session.parkingInfo.parking_data;
+  const hasAccess = parkingInfo.some((p) => p.parking_area_id === data.parkingId);
+
+  if (!hasAccess) {
+    return {
+      status: STATUS.FORBIDDEN,
+      message: "User don't have permission for this parking.",
+    };
+  }
+
+  const parkingName = (data.parkingName || '').trim();
+  const pricingType = (data.pricingType || '').trim();
+  const carPrice = Number(data.carPricePerHour);
+  const bikePrice = Number(data.bikePricePerHour);
+
+  if (!parkingName) {
+    return {
+      status: STATUS.BAD_REQUEST,
+      message: 'Parking name is required.',
+    };
+  }
+
+  if (!isValidType(PricingTypeSet, pricingType)) {
+    return {
+      status: STATUS.BAD_REQUEST,
+      message: 'Invalid pricing type.',
+    };
+  }
+
+  if (Number.isNaN(carPrice) || carPrice < 0) {
+    return {
+      status: STATUS.BAD_REQUEST,
+      message: 'Invalid car price.',
+    };
+  }
+
+  if (Number.isNaN(bikePrice) || bikePrice < 0) {
+    return {
+      status: STATUS.BAD_REQUEST,
+      message: 'Invalid bike price.',
+    };
+  }
+
+  try {
+    await prisma.parkingArea.update({
+      where: { id: data.parkingId },
+      data: {
+        name: parkingName,
+        pricing_type: pricingType as PricingTypeType,
+        car_price_per_hour: new Prisma.Decimal(carPrice),
+        bike_price_per_hour: new Prisma.Decimal(bikePrice),
+      },
+    });
+
+    return {
+      status: STATUS.OK,
+      message: 'Parking details updated successfully.',
+    };
+  } catch (error) {
+    console.error('Failed to update parking details:', error);
+    return {
+      status: STATUS.INTERNAL_SERVER_ERROR,
+      message: 'Failed to update parking details.',
+    };
+  }
 };
 
 export const GetParkingSlotsStatusInfo = getParkingSlotsStatusInfo;
