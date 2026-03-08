@@ -35,12 +35,10 @@ Starts the development environment for all packages.
 ### 3. `start`
 
 ```bash
-npm run start
+npm start
 ```
 
 Alias for the development command.
-
-- Executes: `turbo run dev`
 - Typically used to start the application.
 
 ---
